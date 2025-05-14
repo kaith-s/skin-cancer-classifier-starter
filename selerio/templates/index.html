@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skin Cancer Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .result, .details {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        img {
+            max-width: 300px;
+            margin-top: 10px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Skin Cancer Classifier</h1>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="image">Upload an image:</label><br><br>
+        <input type="file" name="image" accept="image/*" required>
+        <br><br>
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h2>Prediction Result:</h2>
+        <p><strong>Label:</strong> {{ result.label }}</p>
+        <p><strong>Confidence:</strong> {{ result.confidence }}</p>
+        <img src="{{ image_url }}" alt="Uploaded Image">
+    </div>
+
+    <div class="details">
+        <h3>Additional Information:</h3>
+
+        <p><strong>Description:</strong> {{ result.details.Description }}</p>
+
+        <p><strong>Causes:</strong></p>
+        <ul>
+            {% for cause in result.details.Causes %}
+            <li>{{ cause }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Risk Factors:</strong></p>
+        <ul>
+            {% for risk in result.details.RiskFactors %}
+            <li>{{ risk }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Prognosis:</strong> {{ result.details.Prognosis }}</p>
+
+        <p><strong>Treatments:</strong></p>
+        <ul>
+            {% for treatment in result.details.Treatments %}
+            <li>{{ treatment }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+</body>
+</html>
